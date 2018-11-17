@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const bodyParser   = require('body-parser');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -11,8 +11,10 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const flash = require('connect-flash');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+// const flash = require('connect-flash');
+const app = express();
+const auth = require('./routes/auth');
 
 mongoose
   .connect('mongodb://localhost/careyourpet', { useNewUrlParser: true })
@@ -22,7 +24,7 @@ mongoose
   .catch((err) => {
     console.error('Error connecting to mongo', err);
   });
-  
+
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
