@@ -1,32 +1,40 @@
 <h2> Sign Up </h2>
 
 {{#if errorMessage}}
-  <p class="error-message">
-    {{ errorMessage }}
-  </p>
+<p class="error-message">
+  {{ errorMessage }}
+</p>
 {{/if}}
 
 <form action="/signup" method="post">
   <div>
     <label for="name-input"> Name </label>
-    <input type="text" name="name" id="name-input"
-      placeholder="e.g., Diana Prince">
+    <input type="text" name="name" id="name-input" placeholder="e.g., Diana Prince">
   </div>
 
   <div>
     <label for="email-input"> Email </label>
-    <input type="email" name="email" id="email-input"
-      placeholder="e.g., diana@themyscira.agency">
+    <input type="email" name="email" id="email-input" placeholder="e.g., diana@themyscira.agency">
   </div>
 
   <div>
     <label for="password-input"> Password </label>
-    <input type="password" name="password" id="password-input"
-      placeholder="e.g., ••••••••••••">
+    <input type="password" name="password" id="password-input" placeholder="e.g., ••••••••••••">
   </div>
 
   <button> Create New Account </button>
 </form>
+
+{{!-- Facebook Auth Login --}}
+<div class="btnlogin">
+  <button id="facesign" class="loginBtn loginBtn--facebook">
+    <a href="/auth/facebook">Signup with Facebook</a>
+  </button>
+  {{!-- Google Auth Login --}}
+  <button id="googlesign" class="loginBtn loginBtn--google">
+    <a href="/auth/google">Signup with Google Account</a>
+  </button>
+</div>
 
 <p>
   Already have an account?

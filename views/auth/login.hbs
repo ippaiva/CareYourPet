@@ -1,26 +1,36 @@
 <h2> Log In </h2>
 
 {{#if errorMessage}}
-  <p class="error-message">
-    {{ errorMessage }}
-  </p>
+<p class="error-message">
+  {{ errorMessage }}
+</p>
 {{/if}}
 
 <form action="/login" method="post">
   <div>
     <label for="email-input"> Email </label>
-    <input type="email" name="email" id="email-input"
-      placeholder="e.g., xena@warrior.company">
+    <input type="email" name="email" id="email-input" placeholder="e.g., xena@warrior.company">
   </div>
 
   <div>
     <label for="password-input"> Password </label>
-    <input type="password" name="password" id="password-input"
-      placeholder="e.g., ••••••••••••">
+    <input type="password" name="password" id="password-input" placeholder="e.g., ••••••••••••">
   </div>
 
   <button> Log In </button>
 </form>
+
+{{!-- Facebook Auth Login --}}
+<div class="btnlogin">
+  <button id="facesign" class="loginBtn loginBtn--facebook">
+    <a href="/auth/facebook">Signup with Facebook</a>
+  </button>
+
+  {{!-- Google Auth Login --}}
+  <button id="googlesign" class="loginBtn loginBtn--google">
+    <a href="/auth/google">Signup with Google</a>
+  </button>
+</div>
 
 <p>
   Don't have an account?

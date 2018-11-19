@@ -8,13 +8,14 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
-const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
 // const flash = require('connect-flash');
 const app = express();
 const auth = require('./routes/auth');
+const User = require('./models/user.js');
 
 mongoose
   .connect('mongodb://localhost/careyourpet', { useNewUrlParser: true })
@@ -49,14 +50,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
-app.locals.title = 'Care your Pet';
+app.locals.title = 'Care Your Pet';
 
+
+// Passport GOOGLE
 passport.use(
   new GoogleStrategy(
     {
       clientID:
-        '46342904619-7mi4m16at711kl4rmh0vnmlh9utsmlje.apps.googleusercontent.com',
-      clientSecret: 'z4Yyt6KpDTrIyrGTI3nW62jt',
+        '207886205081-09rdttg7cppmsat3t2a9qb4h4qs40abh.apps.googleusercontent.com',
+      clientSecret: 'LIynABNI-MbwhPe9ivp0grGk',
       callbackURL: '/auth/google/callback'
     },
     (accessToken, refreshToken, profile, done) => {
@@ -79,6 +82,23 @@ passport.use(
     }
   )
 );
+
+// Passport Facebook
+// passport.use(new FacebookStrategy({
+//   clientID: FACEBOOK_APP_ID,
+//   clientSecret: FACEBOOK_APP_SECRET,
+//   callbackURL: "http://www.example.com/auth/facebook/callback"
+// },
+// function(accessToken, refreshToken, profile, done) {
+//   User.findOrCreate(..., function(err, user) {
+//     if (err) { return done(err); }
+//     done(null, user);
+//   });
+// }
+// ));
+
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
