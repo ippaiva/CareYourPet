@@ -1,12 +1,20 @@
-<form action="/user" method="post">
-  </div>
+<form id="user-form" action="/user" method="post">
+  <form> {{!-- verificar a necessidade --}}
+    <div class="form-row">
+      <div class="col">
+        <input type="text" name="CPF" class="form-control" placeholder="000.000.000-00">
+      </div>
+      <div class="col">
+        <input type="text" name="name" class="form-control" placeholder="Nome">
+      </div>
+      <div class="col">
+        <input type="text" name="lastName" class="form-control" placeholder="Sobrenome">
+      </div>
+    </div>
+  </form>
   <div class="form-group">
     <label for="inputAddress">Endereço</label>
-    <input type="text" name="address1" class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
-  </div>
-  <div class="form-group">
-    <label for="inputAddress2">Endereço 2</label>
-    <input type="text" name="address2" class="form-control" id="inputAddress2" placeholder="Apartamento, hotel, casa, etc.">
+    <input type="text" name="streetAdress" class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -24,6 +32,10 @@
       <label for="inputCEP">CEP</label>
       <input type="text" name="cep" class="form-control" id="inputCEP">
     </div>
+    <div class="form-group col-md-2">
+      <label for="inputCEP">Fone:</label>
+      <input type="text" name="phone" class="form-control" id="inputPhone">
+    </div>
   </div>
   <div class="form-group">
     <div class="form-check">
@@ -33,5 +45,5 @@
       </label>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">Entrar</button>
+  <button type="submit" class="btn btn-primary">Gravar</button>
 </form>

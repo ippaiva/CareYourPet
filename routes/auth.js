@@ -2,15 +2,16 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+
 const router = express.Router();
 
 // USER MODEL
-const User = require('../models/user');
 
 // Bcrypt to encrypt pass
 const bcryptSalt = 10;
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const User = require('../models/user');
 
 // SignUp View
 router.get('/signup', (req, res, next) => {
@@ -20,21 +21,21 @@ router.get('/signup', (req, res, next) => {
 });
 
 // Signup process
-router.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
+router.get('/signup', (req, res, next) => {
+  res.render('auth/signup');
 });
 
-router.post("/signup", (req, res, next) => {
+router.post('/signup', (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
-  if (username === "" || password === "") {
-    res.render("auth/signup");
+  if (username === '' || password === '') {
+    res.render('auth/signup');
     return;
   }
 
-  User.findOne({ username }, "username", (err, user) => {
+  User.findOne({ username }, 'username', (err, user) => {
     if (user !== null) {
-      res.render("auth/signup", { message: "The username already exists" });
+      res.render('auth/signup', { message: 'The username already exists' });
       return;
     }
 
