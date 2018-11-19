@@ -12,12 +12,11 @@ const shopSchema = new Schema({
     cep: Number,
     streetAddress: String
   },
-  services: ['banho', 'tosa', 'veterinário'],
+  services: ['banho', 'tosa', 'veterinário', 'outros'],
   phone: Number,
-  email: String,
-  pet: { type: Boolean, default: false }
+  email: String
 });
-
+// como colocar o price dos services...banho : $20,00 ...etc...
 shopSchema.set('timestamps', true);
 
 const Shop = mongoose.model('Shop', shopSchema);
