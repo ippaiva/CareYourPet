@@ -1,11 +1,11 @@
-<form>
+<form action="/pet" method="post">
   <div class="form-group">
     <label for="inputDogName">Name</label>
-    <input type="text" class="form-control" id="inputDogName" placeholder="ToTó">
+    <input type="text" name="name" class="form-control" id="inputDogName" placeholder="ToTó">
   </div>
       <div class="form-group">
       <label for="Type">Tipo de Pet</label>
-      <select class="form-control" name="type" id="typePet">
+      <select class="form-control" name="type" name="type" id="typePet">
         <option>Cachorro</option>
         <option>Gato</option>
         <option>Ave</option>
@@ -14,7 +14,7 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputRace">Race</label>
-      <input type="text" class="form-control" id="inputCity">
+      <input type="text" name="race" class="form-control" id="inputCity">
     </div>
     <div class="form-group">
       <label for="PortSize">Port size</label>
@@ -44,7 +44,6 @@
     </div>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
-</form>
 {{!-- FOTO DO Pet --}}
 <form>
   <div class="form-group">
@@ -52,4 +51,5 @@
     <input type="file" name="foto" class="form-control-file" id="exampleFormControlFile1">
   </div>
 </form>
-<button>Gravar</button>
+<button type="submit">Gravar</button>
+</form>
