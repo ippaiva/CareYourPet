@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const user = require("../models/user")
+const User = require("../models/user")
 
 /* GET home page */
 router.get('/', (req, res, next) => {
@@ -32,9 +32,10 @@ router.get('/user', (req, res, next) => {
   res.render('forms/user');
 });
 
-router.post('/forms/user', (req, res, next) => {
-  const { address1, city, state, cep } = req.body;
-  const newUser = new User({ address1, city, state, cep})
+router.post('/user', (req, res, next) => {
+  const { CPF, name, lastName, street.streetAddress, city, state, cep, phone } = req.body;
+  console.log(req.body);
+  const newUser = new User({ CPF, name, lastName, streetAddress, city, state, cep, phone })
   newUser.save()
   .then(() => {
     res.redirect('/home');
