@@ -6,6 +6,12 @@ const shopSchema = new Schema({
   name: String,
   CNPJ: Number,
   location: { type: { type: String }, coordinates: [Number] },
+  address: {
+    city: String,
+    state: String,
+    cep: Number,
+    streetAddress: String
+  },
   services: ['banho', 'tosa', 'veterinário'],
   phone: Number,
   email: String,
