@@ -7,9 +7,12 @@ const userSchema = new Schema({
   name: String,
   email: String,
   password: String,
-  address: String,
-  city: String,
-  cep: Number,
+  address: {
+    city: String,
+    state: String,
+    cep: Number,
+    streetAddress: String
+  },
   phone: Number,
   pet: Boolean
 });
