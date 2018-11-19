@@ -8,6 +8,7 @@ const shopSchema = new Schema({
   location: { type: { type: String }, coordinates: [Number] },
   services: ['banho', 'tosa', 'veterinário'],
   phone: Number,
+  email: String,
   pet: { type: Boolean, default: false }
 });
 

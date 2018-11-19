@@ -8,6 +8,15 @@
       }
     </style>
   <div id="map"></div>
+  
+  {{!-- Mostrar os petshops / hoteis cadastrados --}}
+  <div class="card" style="width: 33.333%;">
+      <img class="card-img-top" src="{{this.photo}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}} {{this.lastName}}</h5>
+        <p class="card-text">{{this.team}}</p>
+      </div>
+</div>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7p3WOL1O2uSoWePmU-Ybi9-sdpxR9Zho"></script>
   <script type="text/javascript" src="/public/javascripts/script.js"></script>
