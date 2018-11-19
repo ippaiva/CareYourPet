@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   CPF: Number,
   name: String,
+  lastName: String,
   email: String,
   password: String,
   address: {
@@ -14,7 +15,6 @@ const userSchema = new Schema({
     streetAddress: String
   },
   phone: Number,
-  pet: Boolean
 });
 
 userSchema.set('timestamps', true);
