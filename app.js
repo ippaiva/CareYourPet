@@ -9,12 +9,13 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 const passport = require('passport');
+const session = require("express-session");
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
-// const flash = require('connect-flash');
+const flash = require('connect-flash');
 const app = express();
-const auth = require('./routes/auth');
+const bcrypt = require('bcrypt');
 const User = require('./models/user.js');
 
 mongoose
@@ -29,7 +30,7 @@ mongoose
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-const index = require('./routes/index');
+
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -51,6 +52,8 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Care Your Pet';
+
+app.locals.user = 
 
 
 // Passport GOOGLE
@@ -97,15 +100,48 @@ passport.use(
 // }
 // ));
 
+// Passport local strategy
+app.use(session({
+  secret: "passport-local-strategy",
+  resave: true,
+  saveUninitialized: true
+}));
 
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
 
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ email: username }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return next(null, false, { message: "Incorrect username" });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
+  });
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 // app.use('/', authRoutes);
+const index = require('./routes/index');
 app.use('/', index);
-app.use('/', auth);
+const auth = require('./routes/auth');
+app.use('/auth', auth);
 
 
 module.exports = app;

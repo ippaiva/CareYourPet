@@ -1,9 +1,7 @@
 // routes/auth.js
 const express = require('express');
 const bcrypt = require('bcrypt');
-
 const passport = require('passport');
-
 const router = express.Router();
 
 // USER MODEL
@@ -14,101 +12,64 @@ const bcryptSalt = 10;
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-// SignUp
+// SignUp View
 router.get('/signup', (req, res, next) => {
   res.render('auth/signup', {
     errorMessage: ''
   });
 });
 
-router.post('/signup', (req, res, next) => {
-  const nameInput = req.body.name;
-  const emailInput = req.body.email;
-  const passwordInput = req.body.password;
+// Signup process
+router.get("/signup", (req, res, next) => {
+  res.render("auth/signup");
+});
 
-  if (emailInput === '' || passwordInput === '') {
-    res.render('auth/signup', {
-      errorMessage: 'Enter both email and password to sign up.'
-    });
+router.post("/signup", (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  if (username === "" || password === "") {
+    res.render("auth/signup");
     return;
   }
 
-  User.findOne({ email: emailInput }, '_id', (err, existingUser) => {
-    if (err) {
-      next(err);
-      return;
-    }
-
-    if (existingUser !== null) {
-      res.render('auth/signup', {
-        errorMessage: `The email ${emailInput} is already in use.`
-      });
+  User.findOne({ username }, "username", (err, user) => {
+    if (user !== null) {
+      res.render("auth/signup", { message: "The username already exists" });
       return;
     }
 
     const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashedPass = bcrypt.hashSync(passwordInput, salt);
+    const hashPass = bcrypt.hashSync(password, salt);
 
-    const userSubmission = {
-      name: nameInput,
-      email: emailInput,
-      password: hashedPass
-    };
-
-    const theUser = new User(userSubmission);
-
-    theUser.save((err) => {
-      if (err) {
-        res.render('auth/signup', {
-          errorMessage: 'Something went wrong. Try again later.'
-        });
-        return;
-      }
-
-      res.redirect('/');
+    const newUser = new User({
+      username,
+      password: hashPass
     });
+
+    newUser.save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch(err => {
+      res.render("auth/signup", { message: "Something went wrong" });
+    })
   });
 });
 
-// LOGIN
-router.get('/login', (req, res, next) => {
-  res.render('auth/login', {
-    errorMessage: ''
-  });
+// LOGIN view
+router.get("/login", (req, res, next) => {
+  console.log(req.body);
+  res.render("auth/login");
 });
 
-router.post('/login', (req, res, next) => {
-  const emailInput = req.body.email;
-  const passwordInput = req.body.password;
+router.post("/login", passport.authenticate("local", {
+  successRedirect: "/home",
+  failureRedirect: "auth/login",
+  failureFlash: false,
+  passReqToCallback: true
+}));
 
-  if (emailInput === '' || passwordInput === '') {
-    res.render('auth/login', {
-      errorMessage: 'Enter both email and password to log in.'
-    });
-    return;
-  }
-
-  User.findOne({ email: emailInput }, (err, theUser) => {
-    if (err || theUser === null) {
-      res.render('auth/login', {
-        errorMessage: `There isn't an account with email ${emailInput}.`
-      });
-      return;
-    }
-
-    if (!bcrypt.compareSync(passwordInput, theUser.password)) {
-      res.render('auth/login', {
-        errorMessage: 'Invalid password.'
-      });
-      return;
-    }
-
-    req.session.currentUser = theUser;
-    res.redirect('home');
-  });
-});
-
-// LOGOUT
+// LOGOUT process
 router.get('/logout', (req, res, next) => {
   if (!req.session.currentUser) {
     res.redirect('/');
@@ -121,13 +82,13 @@ router.get('/logout', (req, res, next) => {
       return;
     }
 
-    res.redirect('/');
+    res.redirect('/index');
   });
 });
 
 // GOOGLE AUTH
 router.get(
-  '/auth/google',
+  '/google',
   passport.authenticate('google', {
     scope: [
       'https://www.googleapis.com/auth/plus.login',
@@ -137,16 +98,12 @@ router.get(
 );
 
 router.get(
-  '/auth/google/callback',
+  '/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/',
-    successRedirect: '/private-page'
+    successRedirect: '/home'
   })
 );
-
-router.get('/', (req, res, next) => {
-  res.render('index');
-});
 
 // FACEBOOK AUTH
 // app.get('/auth/facebook', passport.authenticate('facebook'));
