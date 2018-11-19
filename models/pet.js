@@ -8,6 +8,7 @@ const petSchema = new Schema({
   race: String,
   size: ['toy', 'pequeno', 'médio', 'grande', 'gigante'],
   age: Number,
+  genero: ['Macho', 'Femea'],
   cor: String
 });
 
