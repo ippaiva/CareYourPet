@@ -43,12 +43,13 @@ router.post("/signup", (req, res, next) => {
 
     const newUser = new User({
       username,
+      email,
       password: hashPass
     });
 
     newUser.save()
     .then(() => {
-      res.redirect("home");
+      res.redirect("/forms/user");
     })
     .catch(err => {
       res.render("auth/signup", { message: "Something went wrong" });
@@ -58,13 +59,12 @@ router.post("/signup", (req, res, next) => {
 
 // LOGIN view
 router.get("/login", (req, res, next) => {
-  console.log(req.body);
   res.render("auth/login");
 });
 
 router.post("/login", passport.authenticate("local", {
   successRedirect: "/home",
-  failureRedirect: "auth/login",
+  failureRedirect: "/auth/login",
   failureFlash: false,
   passReqToCallback: true
 }));
@@ -81,8 +81,8 @@ router.get('/logout', (req, res, next) => {
       next(err);
       return;
     }
-
-    res.redirect('/index');
+    req.logout();
+    res.redirect('/');
   });
 });
 
