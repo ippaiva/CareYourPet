@@ -4,6 +4,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const bcryptSalt = 10;
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 router.get('/signup', (req, res, next) => {
   res.render('auth/signup', {
@@ -93,7 +95,7 @@ router.post('/login', (req, res, next) => {
     }
 
     req.session.currentUser = theUser;
-    res.redirect('/');
+    res.redirect('home');
   });
 });
 

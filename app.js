@@ -11,8 +11,9 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const flash = require('connect-flash');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const app = express();
+const auth = require('./routes/auth');
 
 mongoose
   .connect('mongodb://localhost/careyourpet', { useNewUrlParser: true })
