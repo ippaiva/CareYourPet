@@ -15,7 +15,8 @@ const hotelSchema = new Schema({
     cep: Number,
     streetAddress: String
   },
-  phone: Number
+  phone: Number,
+  cost: Number
 });
 
 
