@@ -6,15 +6,17 @@ const userSchema = new Schema({
   CPF: Number,
   name: String,
   lastName: String,
+  username: String,
   email: String,
   password: String,
+  location: { type: { type: String }, coordinates: [Number] },
   address: {
     city: String,
     state: String,
     cep: Number,
     streetAddress: String
   },
-  phone: Number,
+  phone: Number
 });
 
 userSchema.set('timestamps', true);
