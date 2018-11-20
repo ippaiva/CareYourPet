@@ -18,5 +18,16 @@
       </div>
 </div>
 
+<h1>Shops</h1>
+{{#each shops}}
+    <p>{{this.name}}</p>
+    <p>{{this.services}}</p>
+{{/each}}
+
+<h1>Hotels</h1>
+{{#each hotels}}
+    <p>{{this.name}}</p>
+{{/each}}
+
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7p3WOL1O2uSoWePmU-Ybi9-sdpxR9Zho"></script>
   <script type="text/javascript" src="/javascripts/script.js"></script>
