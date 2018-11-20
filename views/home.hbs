@@ -1,32 +1,39 @@
+<nav>
+  <p>{{ userInfo.name }}</p>
+  <a href="/home">Home</a>
+  <a href="/services">Services</a>
+  <a href="/profile">Profile</a>
+  <a href="/auth/logout">Logout</a>
+</nav>
 <h1>Home</h1>
 
-  <h3>Find your Pet Service</h3>
-    <style>
-      #map {
+<h3>Find your Pet Service</h3>
+<style>
+  #map {
       height: 500px;
       width: 100%;
       }
     </style>
-  <div id="map"></div>
-  
-  {{!-- Mostrar os petshops / hoteis cadastrados --}}
-  <div class="card" style="width: 33.333%;">
-      <img class="card-img-top" src="{{this.photo}}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{this.name}} {{this.lastName}}</h5>
-        <p class="card-text">{{this.team}}</p>
-      </div>
+<div id="map"></div>
+
+{{!-- Mostrar os petshops / hoteis cadastrados --}}
+<div class="card" style="width: 33.333%;">
+  <img class="card-img-top" src="{{this.photo}}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{this.name}} {{this.lastName}}</h5>
+    <p class="card-text">{{this.team}}</p>
+  </div>
 </div>
 
 <h1>Shops</h1>
 {{#each shops}}
-    <a href="/order">{{this.name}}</a>
+<a href="/order">{{this.name}}</a>
 {{/each}}
 
 <h1>Hotels</h1>
 {{#each hotels}}
-    <a href="/order">{{this.name}}</a>
+<a href="/order">{{this.name}}</a>
 {{/each}}
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7p3WOL1O2uSoWePmU-Ybi9-sdpxR9Zho"></script>
-  <script type="text/javascript" src="/javascripts/script.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7p3WOL1O2uSoWePmU-Ybi9-sdpxR9Zho"></script>
+<script type="text/javascript" src="/javascripts/script.js"></script>

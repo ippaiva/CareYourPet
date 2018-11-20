@@ -54,9 +54,6 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'Care Your Pet';
 
-app.locals.user = 
-
-
 // Passport GOOGLE
 passport.use(
   new GoogleStrategy(
@@ -103,9 +100,12 @@ passport.use(
 
 // Passport local strategy
 app.use(session({
-  secret: "passport-local-strategy",
-  resave: true,
-  saveUninitialized: true
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 6000000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
 }));
 
 passport.serializeUser((user, cb) => {
@@ -136,14 +136,7 @@ passport.use(new LocalStrategy((username, password, next) => {
 }));
 
 app.use(passport.initialize());
-app.use(passport.session({
-  secret: "basic-auth-secret",
-  cookie: { maxAge: 6000000 },
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60 // 1 day
-  })
-}));
+app.use(passport.session());
 
 // app.use('/', authRoutes);
 const index = require('./routes/index');

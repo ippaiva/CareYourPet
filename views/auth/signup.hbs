@@ -8,9 +8,9 @@
     <h1> Sign Up </h1>
     <form action="/auth/signup" method="post">
       <input type="text" name="username" placeholder="Username" />
-      <input type="text" name="email" placeholder="Email required" />
-      <input type="password" name="password" placeholder="Password required"/>
-      <input type="submit" name="singup-button" placeholder="Sign Up" />
+      <input type="text" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="submit" name="singup-button" placeholder="Sing Up" />
       <p>Already have an account?<a href="/auth/login">Log in.</a>
       </p>
     </form>
@@ -21,37 +21,4 @@
     <button class="loginBtn loginBtn--google">Log in with Google+ </button>
   </div>
   <div class="or">OR</div>
-</div>
-
-
-
-
-<form action="/auth/signup" method="post">
-  <div>
-    <label for="name-input"> Name </label>
-    <input type="text" name="name" id="name-input" placeholder="e.g., Diana Prince">
-  </div>
-
-  <div>
-    <label for="email-input"> Email </label>
-    <input type="email" name="email" id="email-input" placeholder="e.g., diana@themyscira.agency">
-  </div>
-
-  <div>
-    <label for="password-input"> Password </label>
-    <input type="password" name="password" id="password-input" placeholder="e.g., ••••••••••••">
-  </div>
-
-  <button> Create New Account </button>
-</form>
-
-{{!-- Facebook Auth Login --}}
-<div class="btnlogin">
-  <button id="facesign" class="loginBtn loginBtn--facebook">
-    <a href="/auth/facebook">Signup with Facebook</a>
-  </button>
-  {{!-- Google Auth Login --}}
-  <button id="googlesign" class="loginBtn loginBtn--google">
-    <a href="/auth/google">Signup with Google Account</a>
-  </button>
 </div>

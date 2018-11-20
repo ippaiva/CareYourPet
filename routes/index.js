@@ -13,13 +13,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/home', ensureAuthenticated, (req, res, next) => {
-  const userInfo = req.user;
+  // const userInfo = req.user;
+  console.log(req.user);
+  res.render("home");
   Shop.find()
   .then(shops => {
     Hotel.find()
     .then(hotels => {
-      console.log(req.user.name);
-      res.render("home", { shops, hotels, userInfo });
     })
     .catch((error) => {
     });
@@ -52,7 +52,7 @@ router.get('/user', ensureAuthenticated, (req, res, next) => {
   res.render('forms/user');
 });
 
-router.post('/user', (req, res, next) => {
+router.post('/user', ensureAuthenticated, (req, res, next) => {
   const { CPF, name, lastName, adress:streetAddress, address:city, address:state, address:cep, phone } = req.body;
   const newUser = new User({ CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone });
   newUser.save()
@@ -66,7 +66,7 @@ router.post('/user', (req, res, next) => {
 
 // Pet form GET and POST
 router.get('/pet', ensureAuthenticated, (req, res, next) => {
-  res.render('forms/pet', {user: req.user.id});
+  res.render('forms/pet', { user: req.user.id });
 });
 
 router.post('/pet', ensureAuthenticated, (req, res, next) => {

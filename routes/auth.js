@@ -3,7 +3,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const session = require('express-session');
-const ensureAuthenticated = require("./authenticated");
+const ensureAuthenticated = require('./authenticated');
+
 const router = express.Router();
 
 // Bcrypt to encrypt pass
@@ -44,20 +45,17 @@ router.post('/signup', (req, res, next) => {
 
     newUser.save()
     .then( () => {
-      session.save;
-      .then( () => {
-        res.redirect("/forms/user");
+      res.redirect("/user");
       })
     .catch(err => {
       console.log(err);
       res.render("auth/signup", { message: "Something went wrong" });
     });
-  });
 });
 
 // LOGIN view
-router.get("/login", (req, res, next) => {
-  res.render("auth/login");
+router.get('/login', (req, res, next) => {
+  res.render('auth/login');
 });
 
 router.post("/login", passport.authenticate("local", {
