@@ -1,11 +1,11 @@
 const express = require('express');
 
 const router = express.Router();
-const User = require('../models/user');
-const Pet = require('../models/pet');
-const Hotel = require('../models/hotel');
-const Shop = require('../models/shop');
-const ensureAuthenticated = require('./authenticated');
+const User = require("../models/user");
+const Pet = require("../models/pet");
+const Hotel = require("../models/hotel");
+const Shop = require("../models/shop");
+const ensureAuthenticated = require("./authenticated");
 
 /* GET home page */
 router.get('/', (req, res, next) => {
@@ -13,17 +13,17 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/home', ensureAuthenticated, (req, res, next) => {
-  const userInfo = req.user;
+  // const userInfo = req.user;
+  console.log(req.user);
+  res.render("home");
   Shop.find()
-    .then((shops) => {
-      Hotel.find()
-        .then((hotels) => {
-          console.log(req.user.name);
-          res.render('home', { shops, hotels, userInfo });
-        })
-        .catch((error) => {
-        });
+  .then(shops => {
+    Hotel.find()
+    .then(hotels => {
+    })
+    .catch((error) => {
     });
+  });
 });
 
 router.get('/services', ensureAuthenticated, (req, res, next) => {
@@ -53,8 +53,7 @@ router.get('/user', (req, res, next) => {
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
-  const { CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone } = req.body;
-  console.log(req.body);
+  const { CPF, name, lastName, adress:streetAddress, address:city, address:state, address:cep, phone } = req.body;
   const newUser = new User({ CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone });
   newUser.save()
     .then(() => {
@@ -89,7 +88,7 @@ router.get('/hotel', ensureAuthenticated, (req, res, next) => {
 });
 
 router.post('/hotel', ensureAuthenticated, (req, res, next) => {
-  const { name, CNPJ, address: streetAddress, address: city, address: state, address: cep } = req.body;
+  const { name, CNPJ, address:streetAddress, address:city, address:state, address:cep } = req.body;
   console.log(req.body);
   const newHotel = new Hotel({ name, CNPJ, address: streetAddress, address: city, address: state, address: cep });
   newHotel.save()
@@ -102,3 +101,4 @@ router.post('/hotel', ensureAuthenticated, (req, res, next) => {
 });
 
 module.exports = router;
+
