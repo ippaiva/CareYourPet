@@ -13,50 +13,45 @@ const User = require('../models/user');
 
 // SignUp View
 router.get('/signup', (req, res, next) => {
-  res.render('auth/signup', {
-    errorMessage: ''
-  });
+  res.render('auth/signup');
 });
 
 // Signup process
-// router.get('/signup', (req, res, next) => {
-//   res.render('auth/signup');
-// });
-
 router.post('/signup', (req, res, next) => {
-  const { name, email, password} = req.body;
-
+  const { username, email, password} = req.body;
   if (email === '' || password === '') {
     res.render('auth/signup');
     return;
   }
 
-  User.findOne({ email }, (err, user) => {
-    console.log(req.body.email);
-    if (user !== null) {
-      res.render('auth/signup', { message: 'The account with this email already exists' });
-      return;
-    }
+  // User.findOne({ email }, (err, user) => {
+  //   if (user !== null) {
+  //     // res.render('auth/signup', { message: 'The account with this email already exists' });
+  //     console.log("usuário já existe");
+  //     return;
+  //   }
+  // }
 
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(password, salt);
 
     const newUser = new User({
-      name,
+      username,
       email,
       password: hashPass
     });
     console.log(newUser);
 
     newUser.save()
-    .then(() => {
-      console.log(newUser);
-      res.redirect("/user" + req.user.username);
-    })
+    .then( () => {
+      session.save;
+      .then( () => {
+        res.redirect("/forms/user");
+      })
     .catch(err => {
       console.log(err);
       res.render("auth/signup", { message: "Something went wrong" });
-    })
+    });
   });
 });
 
@@ -68,7 +63,6 @@ router.get("/login", (req, res, next) => {
 router.post("/login", passport.authenticate("local", {
   successRedirect: "/home",
   failureRedirect: "/auth/login",
-  failureFlash: false,
   passReqToCallback: true
 }));
 

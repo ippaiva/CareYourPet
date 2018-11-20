@@ -52,9 +52,8 @@ router.get('/user', ensureAuthenticated, (req, res, next) => {
   res.render('forms/user');
 });
 
-router.post('/user', ensureAuthenticated, (req, res, next) => {
+router.post('/user', (req, res, next) => {
   const { CPF, name, lastName, adress:streetAddress, address:city, address:state, address:cep, phone } = req.body;
-  console.log(req.body);
   const newUser = new User({ CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone });
   newUser.save()
     .then(() => {

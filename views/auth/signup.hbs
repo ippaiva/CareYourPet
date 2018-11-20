@@ -8,14 +8,13 @@
     <h1> Sign Up </h1>
     <form action="/auth/signup" method="post">
       <input type="text" name="username" placeholder="Username" />
-      <input type="text" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <input type="password" name="password2" placeholder="Retype Password" />
-      <input type="submit" name="singup-button" placeholder="Sing Up" />
+      <input type="text" name="email" placeholder="Email required" />
+      <input type="password" name="password" placeholder="Password required"/>
+      <input type="submit" name="singup-button" placeholder="Sign Up" />
       <p>Already have an account?<a href="/auth/login">Log in.</a>
       </p>
+    </form>
   </div>
-  </form>
   <div class="right-box">
     <span class="signinwith">Sign in with</br>Social Network </span>
     <button class="loginBtn loginBtn--facebook">Log in with Facebook</button>
