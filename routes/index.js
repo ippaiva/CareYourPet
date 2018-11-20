@@ -48,7 +48,7 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 
 // User form GET and POST
-router.get('/user', ensureAuthenticated, (req, res, next) => {
+router.get('/user', (req, res, next) => {
   res.render('forms/user');
 });
 
