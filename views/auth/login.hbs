@@ -1,45 +1,34 @@
-<h2> Log In </h2>
-
 {{#if errorMessage}}
 <p class="error-message">
   {{ errorMessage }}
 </p>
 {{/if}}
+<div id="login-box">
+  <div class="left-box">
+    <h1> Log In </h1>
+    <form action="/auth/signup" method="post">
+      <input type="text" name="username" placeholder="Username or Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button class="btn btn-dark btn-sm" type="submit">Log In</button>
+      <div>
+        <br>
+        <p><a href="/auth/reset">Forgot password?</a></p>
+        <p>Don't have an account?
+          <a href="/auth/signup">Create an account.</a>
+        </p>
+      </div>
 
-<form action="/auth/login" method="post">
-  <div>
-    <label for="email-input"> Email </label>
-    <input type="email" name="username" id="email-input" placeholder="e.g., xena@warrior.company">
   </div>
 
-  <div>
-    <label for="password-input"> Password </label>
-    <input type="password" name="password" id="password-input" placeholder="e.g., ••••••••••••">
+  </form>
+  <div class="right-box">
+    <span class="signinwith">Log in with</br>Social Network </span>
+    <button class="loginBtn loginBtn--facebook">Log in with Facebook</button>
+    <button class="loginBtn loginBtn--google">Log in with Google+ </button>
   </div>
-
-  <button class="btn btn-primary mb-2" type="submit" > Log In </button>
-</form>
-
-{{!-- Facebook Auth Login --}}
-<div class="btnlogin">
-  <button id="facesign" class="loginBtn loginBtn--facebook">
-    <a href="/auth/facebook">Signup with Facebook</a>
-  </button>
-
-  {{!-- Google Auth Login --}}
-  <button id="googlesign" class="loginBtn loginBtn--google">
-    <a href="/auth/google">Signup with Google</a>
-  </button>
+  <div class="or">OR</div>
 </div>
 
-<p>
-  Don't have an account?
-  <a href="/auth/signup">
-    Create an account.
-  </a>
-</p>
-<p>
-  <a href="/auth/reset">
-    Esqueceu a senha?
-  </a>
-</p>
+
+
+</form>
