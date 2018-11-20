@@ -10,6 +10,7 @@ const logger = require('morgan');
 const path = require('path');
 const passport = require('passport');
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session); 
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
@@ -135,7 +136,14 @@ passport.use(new LocalStrategy((username, password, next) => {
 }));
 
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session({
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 6000000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
 
 // app.use('/', authRoutes);
 const index = require('./routes/index');

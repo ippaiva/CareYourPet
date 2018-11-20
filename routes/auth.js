@@ -2,14 +2,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-
+const session = require('express-session');
+const ensureAuthenticated = require("./authenticated");
 const router = express.Router();
-
-// USER MODEL
 
 // Bcrypt to encrypt pass
 const bcryptSalt = 10;
-const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const User = require('../models/user');
 
@@ -21,21 +19,22 @@ router.get('/signup', (req, res, next) => {
 });
 
 // Signup process
-router.get('/signup', (req, res, next) => {
-  res.render('auth/signup');
-});
+// router.get('/signup', (req, res, next) => {
+//   res.render('auth/signup');
+// });
 
 router.post('/signup', (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  if (username === '' || password === '') {
+  const { name, email, password} = req.body;
+
+  if (email === '' || password === '') {
     res.render('auth/signup');
     return;
   }
 
-  User.findOne({ username }, 'username', (err, user) => {
+  User.findOne({ email }, (err, user) => {
+    console.log(req.body.email);
     if (user !== null) {
-      res.render('auth/signup', { message: 'The username already exists' });
+      res.render('auth/signup', { message: 'The account with this email already exists' });
       return;
     }
 
@@ -43,16 +42,19 @@ router.post('/signup', (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const newUser = new User({
-      username,
+      name,
       email,
       password: hashPass
     });
+    console.log(newUser);
 
     newUser.save()
     .then(() => {
-      res.redirect("/forms/user");
+      console.log(newUser);
+      res.redirect("/user" + req.user.username);
     })
     .catch(err => {
+      console.log(err);
       res.render("auth/signup", { message: "Something went wrong" });
     })
   });
@@ -71,7 +73,7 @@ router.post("/login", passport.authenticate("local", {
 }));
 
 // LOGOUT process
-router.get('/logout', (req, res, next) => {
+router.get('/logout', ensureAuthenticated, (req, res, next) => {
   if (!req.session.currentUser) {
     res.redirect('/');
     return;
