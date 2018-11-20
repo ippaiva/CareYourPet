@@ -20,13 +20,12 @@
 
 <h1>Shops</h1>
 {{#each shops}}
-    <p>{{this.name}}</p>
-    <p>{{this.services}}</p>
+    <a href="/order">{{this.name}}</a>
 {{/each}}
 
 <h1>Hotels</h1>
 {{#each hotels}}
-    <p>{{this.name}}</p>
+    <a href="/order">{{this.name}}</a>
 {{/each}}
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7p3WOL1O2uSoWePmU-Ybi9-sdpxR9Zho"></script>
