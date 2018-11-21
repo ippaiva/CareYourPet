@@ -1,33 +1,29 @@
+<div>
 <form id="user-form" action="/user" method="post">
+  <div class="form-row">
+    <div class="col">
       <label for="inputAddress">CPF</label>
-    <div class="form-row">
-      <div class="col">
-        <input type="text" name="CPF" value="{{ users.CPF }}" class="form-control" placeholder="000.000.000-00">
-      </div>
-      <div class="col">
-        <input type="text" name="name" value="{{ users.name }}"class="form-control" placeholder="Nome">
-      </div>
-      <div class="col">
-        <input type="text" name="lastName" value="{{ users.lastName }}"class="form-control" placeholder="Sobrenome">
-      </div>
+      <input type="text" name="CPF" value="{{ users.CPF }}" class="form-control" placeholder="000.000.000-00">
     </div>
-    <div class="col">
-      <label for="inputAddress">Nome</label>
-      <input type="text" name="name" class="form-control" placeholder="Ronald">
-    </div>
-    <div class="col">
-      <label for="inputAddress">Sobrenome</label>
-      <input type="text" name="lastName" class="form-control" placeholder="McDonald's">
-    </div>
+  <div class="col">
+    <label for="inputAddress">Nome</label>
+    <input type="text" name="name" value="{{ users.name }}" class="form-control" placeholder="Ronald">
   </div>
+  <div class="col">
+    <label for="inputAddress">Sobrenome</label>
+    <input type="text" name="lastName" value="{{ users.lastName }}" class="form-control" placeholder="McDonald's">
+  </div>
+  </div>
+  <br>
   <div class="form-group">
     <label for="inputAddress">Endereço</label>
-    <input type="text" name="streetAdress" value="{{ users.streetAddress }}"class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
+    <input type="text" name="streetAdress" value="{{ users.streetAddress }}" class="form-control" id="inputAddress"
+      placeholder="Rua dos Bobos, nº 0">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputCity">City</label>
-      <input type="text" name="city" value="{{ users.city }}"class="form-control" id="inputCity">
+      <input type="text" name="city" value="{{ users.city }}" class="form-control" id="inputCity" placeholder="São Paulo">
     </div>
     <div class="form-group col-md-4">
       <label for="inputEstado">Estado</label>
@@ -63,14 +59,16 @@
     </div>
     <div class="form-group col-md-2">
       <label for="inputCEP">CEP</label>
-      <input type="text" name="cep" value="{{ users.cep }}" class="form-control" id="inputCEP">
+      <input type="text" name="cep" value="{{ users.cep }}" class="form-control" id="inputCEP" placeholder="000000-00">
     </div>
     <div class="form-group col-md-2">
       <label for="inputCEP">Fone:</label>
-      <input type="text" name="phone" value="{{ users.phone }}" class="form-control" id="inputPhone">
+      <input type="text" name="phone" value="{{ users.phone }}" class="form-control" id="inputPhone" placeholder="11998446922">
     </div>
   </div>
   <div class="form-group">
   </div>
   <button type="submit" class="btn btn-primary">Gravar</button>
+  <button type="submit" class="btn btn-warning" style=" color: white">Editar</button>
 </form>
+</div>
