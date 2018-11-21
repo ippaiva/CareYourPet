@@ -1,27 +1,30 @@
 <form id="user-form" action="/user" method="post">
   <div class="form-row">
     <div class="col">
-      <input type="text" name="CPF" class="form-control" placeholder="000.000.000-00">
+      <label for="inputAddress">CPF</label>
+      <input type="text" name="CPF" value="{{ user.CPF }}" class="form-control">
     </div>
     <div class="col">
-      <input type="text" name="name" class="form-control" placeholder="Nome">
+      <label for="inputAddress">Nome</label>
+      <input type="text" name="name" value="{{ user.name }}" class="form-control">
     </div>
     <div class="col">
-      <input type="text" name="lastName" class="form-control" placeholder="Sobrenome">
+      <label for="inputAddress">Sobrenome</label>
+      <input type="text" name="lastName" value="{{ user.lastName }}" class="form-control">
     </div>
   </div>
   <div class="form-group">
     <label for="inputAddress">Endereço</label>
-    <input type="text" name="streetAdress" value="{{ users.streetAddress }}"class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
+    <input type="text" name="streetAddress" value="{{ user.streetAddress }}" class="form-control" id="inputAddress">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputCity">City</label>
-      <input type="text" name="city" value="{{ users.city }}"class="form-control" id="inputCity">
+      <input type="text" name="city" value="{{ user.city }}" class="form-control" id="inputCity">
     </div>
     <div class="form-group col-md-4">
       <label for="inputEstado">Estado</label>
-      <select id="inputEstado" name="state" value="{{ users.state }}" class="form-control">
+      <select id="inputEstado" name="state" value="{{ user.state }}" class="form-control">
         <option selected>Escolher...</option>
         <option>AL</option>
         <option>AP</option>
@@ -53,20 +56,14 @@
     </div>
     <div class="form-group col-md-2">
       <label for="inputCEP">CEP</label>
-      <input type="text" name="cep" value="{{ users.cep }}" class="form-control" id="inputCEP">
+      <input type="text" name="cep" value="{{ user.cep }}" class="form-control" id="inputCEP">
     </div>
     <div class="form-group col-md-2">
       <label for="inputCEP">Fone:</label>
-      <input type="text" name="phone" value="{{ users.phone }}" class="form-control" id="inputPhone">
+      <input type="text" name="phone" value="{{ user.phone }}" class="form-control" id="inputPhone">
     </div>
   </div>
   <div class="form-group">
-    <div class="form-check">
-      <input name="check" class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Clique em mim
-      </label>
-    </div>
   </div>
   <button type="submit" class="btn btn-primary">Gravar</button>
 </form>
