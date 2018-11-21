@@ -19,11 +19,12 @@ router.get('/auth/reset', (req, res, next) => {
 router.get('/home', ensureAuthenticated, (req, res, next) => {
   // const userInfo = req.user;
   console.log(req.user);
-  res.render('home');
+
   Shop.find()
     .then((shops) => {
       Hotel.find()
         .then((hotels) => {
+          res.render('home', { shops, hotels });
         })
         .catch((error) => {
         });
@@ -45,15 +46,15 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  console.log("teste do req session", req.session.passport.user);
-  console.log("teste do req user", req.user._id);
+  console.log('teste do req session', req.session.passport.user);
+  console.log('teste do req user', req.user._id);
   User.findOne({ _id: req.session.passport.user })
-  .then((user) => {
-    res.render('forms/user', {user});
-  })
-  .catch((error) => {
-    console.log(error);
-  })
+    .then((user) => {
+      res.render('forms/user', { user });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
@@ -93,20 +94,7 @@ router.post('/pet', ensureAuthenticated, (req, res, next) => {
 
 // Shop Details GET
 router.get('/shop/:id', ensureAuthenticated, (req, res, next) => {
-  const shopId = req.params.id;
-  if (!/^[0-9a-fA-F]{24}$/.test(shopId)) {
-    return res.status(404).render('not-found');
-  }
-  Shop.findOne({ _id: shopId })
-    .populate('author')
-    .then((shop) => {
-      console.log(shop);
-      if (!shop) {
-        return res.status(404).render('not-found');
-      }
-      res.render('/details', { shop });
-    })
-    .catch(next);
+
 });
 
 

@@ -32,9 +32,12 @@ router.post('/signup', (req, res, next) => {
   //     return;
   //   }
   // }
-
-  const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(password, salt);
+  let salt;
+  let hashPass;
+  if (password === true) {
+    salt = bcrypt.genSaltSync(bcryptSalt);
+    hashPass = bcrypt.hashSync(password, salt);
+  }
 
   const newUser = new User({
     username,

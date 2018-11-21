@@ -1,4 +1,4 @@
-<div>
+
 <form id="user-form" action="/user" method="post">
   <div class="form-row">
     <div class="col">
@@ -13,11 +13,6 @@
       <label for="inputAddress">Sobrenome</label>
       <input type="text" name="lastName" value="{{ user.lastName }}" class="form-control">
     </div>
-  </div>
-  <div class="col">
-    <label for="inputAddress">Sobrenome</label>
-    <input type="text" name="lastName" value="{{ users.lastName }}" class="form-control" placeholder="McDonald's">
-  </div>
   </div>
   <br>
   <div class="form-group">
@@ -74,5 +69,6 @@
   </div>
   <button type="submit" class="btn btn-primary">Gravar</button>
   <button type="submit" class="btn btn-warning" style=" color: white">Editar</button>
-</form>
+  <button class="btn btn-info"><a href="/home" class="badge badge-info">Home</a></button>
+  </form>
 </div>
