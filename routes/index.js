@@ -45,27 +45,27 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  console.log('teste do user', req.session);
-  User.findOne({ _id: req.query._id })
-    .then((user) => {
-      console.log(req.user);
-      res.render('forms/user', { user });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  console.log("teste do req session", req.session.passport.user);
+  console.log("teste do req user", req.user._id);
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    res.render('forms/user', {user});
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
-  const { CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone } = req.body;
+  console.log('**************', req.body);
+  const { CPF, name, lastName, streetAddress, city, state, cep, phone } = req.body;
 
-  console.log(req.body);
+  // const newUser = new User({ CPF, name, lastName, adress: streetAddress, address:city, address:state, address:cep, phone });
+  User.findByIdAndUpdate({ _id: req.session.passport.user }, { CPF, name, lastName, streetAddress, city, state, cep, phone })
 
-  const newUser = new User({ CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone });
-
-  newUser.save(req.body.name)
+  // newUser.save()
     .then(() => {
-      console.log(newUser);
+      // console.log(User);
       res.redirect('/home');
     })
     .catch((error) => {
