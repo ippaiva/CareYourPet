@@ -35,7 +35,14 @@ router.get('/services', ensureAuthenticated, (req, res, next) => {
 });
 
 router.get('/profile', ensureAuthenticated, (req, res, next) => {
-  res.render('profile');
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    console.log(user);
+    res.render('profile', {user});
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 router.get('/shop', ensureAuthenticated, (req, res, next) => {
@@ -57,15 +64,10 @@ router.get('/user', ensureAuthenticated, (req, res, next) => {
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
-  console.log('**************', req.body);
   const { CPF, name, lastName, streetAddress, city, state, cep, phone } = req.body;
 
-  // const newUser = new User({ CPF, name, lastName, adress: streetAddress, address:city, address:state, address:cep, phone });
   User.findByIdAndUpdate({ _id: req.session.passport.user }, { CPF, name, lastName, streetAddress, city, state, cep, phone })
-
-  // newUser.save()
     .then(() => {
-      // console.log(User);
       res.redirect('/home');
     })
     .catch((error) => {
@@ -75,17 +77,26 @@ router.post('/user', ensureAuthenticated, (req, res, next) => {
 
 // Pet form GET and POST
 router.get('/pet', ensureAuthenticated, (req, res, next) => {
-  res.render('forms/pet', { user: req.user.id });
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    res.render('forms/pet', {user});
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 router.post('/pet', ensureAuthenticated, (req, res, next) => {
   const { name, type, race, size, age, genero, cor } = req.body;
-  console.log(req.body);
-  const newPet = new Pet({ name, type, race, size, age, genero, cor });
+  console.log("esse é o req body", req.body);
+  const newPet = new Pet( { owner: req.session.passport.user, name, type, race, size, age, genero, cor });
+
   newPet.save()
     .then(() => {
-      res.redirect('/home');
-    })
+      User.findByIdAndUpdate({ _id: req.session.passport.user }, { pet: [newPet._id] })
+      .then(() => {
+        res.redirect('/home');
+      })
     .catch((error) => {
       console.log(error);
     });

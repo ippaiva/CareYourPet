@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  pet: [{ type: Schema.Types.ObjectId, ref: 'Pet' }],
   CPF: Number,
   name: String,
   lastName: String,

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-
+const User = require("../models/user");
 const Schema = mongoose.Schema;
 
 const petSchema = new Schema({
+  owner: { type: Schema.Types.ObjectId, ref: 'User' },
   name: String,
-  owner: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   type: ['Cachorro', 'Gato', 'Ave', 'Outros'],
   race: String,
   size: ['toy', 'pequeno', 'médio', 'grande', 'gigante'],
