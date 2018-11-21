@@ -38,14 +38,6 @@ router.get('/profile', ensureAuthenticated, (req, res, next) => {
   res.render('profile');
 });
 
-router.get('/cart', ensureAuthenticated, (req, res, next) => {
-  res.render('cart');
-});
-
-router.get('/order', ensureAuthenticated, (req, res, next) => {
-  res.render('order');
-});
-
 router.get('/shop', ensureAuthenticated, (req, res, next) => {
   res.render('forms/shop');
 });
@@ -53,9 +45,10 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  User.findOne({ name: req.query.name})
+  console.log("teste do user", req.session);
+  User.findOne({ _id: req.query._id})
   .then((user) => {
-    console.log(user);
+    console.log(req.user);
     res.render('forms/user', {user});
   })
   .catch((error) => {
