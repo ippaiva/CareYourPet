@@ -12,6 +12,10 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
+router.get('/auth/reset',(req, res, next) => {
+  res.render('/auth/reset');
+});
+
 router.get('/home', ensureAuthenticated, (req, res, next) => {
   // const userInfo = req.user;
   console.log(req.user);
@@ -34,29 +38,34 @@ router.get('/profile', ensureAuthenticated, (req, res, next) => {
   res.render('profile');
 });
 
-router.get('/cart', ensureAuthenticated, (req, res, next) => {
-  res.render('cart');
-});
-
-router.get('/order', ensureAuthenticated, (req, res, next) => {
-  res.render('order');
-});
-
 router.get('/shop', ensureAuthenticated, (req, res, next) => {
   res.render('forms/shop');
 });
 
 
 // User form GET and POST
-router.get('/user', (req, res, next) => {
-  res.render('forms/user');
+router.get('/user', ensureAuthenticated, (req, res, next) => {
+  console.log("teste do user", req.session);
+  User.findOne({ _id: req.query._id})
+  .then((user) => {
+    console.log(req.user);
+    res.render('forms/user', {user});
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
   const { CPF, name, lastName, adress:streetAddress, address:city, address:state, address:cep, phone } = req.body;
-  const newUser = new User({ CPF, name, lastName, adress: streetAddress, address: city, address: state, address: cep, phone });
-  newUser.save()
+
+  console.log(req.body);
+
+  const newUser = new User({ CPF, name, lastName, adress: streetAddress, address:city, address:state, address:cep, phone });
+
+  newUser.save(req.body.name)
     .then(() => {
+      console.log(newUser);
       res.redirect('/home');
     })
     .catch((error) => {

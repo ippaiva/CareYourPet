@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const session = require('express-session');
 const ensureAuthenticated = require('./authenticated');
-
 const router = express.Router();
 
 // Bcrypt to encrypt pass
@@ -44,7 +43,8 @@ router.post('/signup', (req, res, next) => {
     console.log(newUser);
 
     newUser.save()
-    .then( () => {
+    .then((user) => {
+      req.session.user = user;
       res.redirect("/user");
       })
     .catch(err => {
@@ -76,8 +76,8 @@ router.get('/logout', ensureAuthenticated, (req, res, next) => {
       next(err);
       return;
     }
-    req.logout();
-    res.redirect('/');
+  req.logout();
+  res.redirect('/');
   });
 });
 

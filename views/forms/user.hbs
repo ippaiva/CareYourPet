@@ -1,8 +1,15 @@
 <form id="user-form" action="/user" method="post">
-  <div class="form-row">
-    <div class="col">
       <label for="inputAddress">CPF</label>
-      <input type="text" name="CPF" class="form-control" placeholder="000.000.000-00">
+    <div class="form-row">
+      <div class="col">
+        <input type="text" name="CPF" value="{{ users.CPF }}" class="form-control" placeholder="000.000.000-00">
+      </div>
+      <div class="col">
+        <input type="text" name="name" value="{{ users.name }}"class="form-control" placeholder="Nome">
+      </div>
+      <div class="col">
+        <input type="text" name="lastName" value="{{ users.lastName }}"class="form-control" placeholder="Sobrenome">
+      </div>
     </div>
     <div class="col">
       <label for="inputAddress">Nome</label>
@@ -15,16 +22,16 @@
   </div>
   <div class="form-group">
     <label for="inputAddress">Endereço</label>
-    <input type="text" name="streetAdress" class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
+    <input type="text" name="streetAdress" value="{{ users.streetAddress }}"class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputCity">City</label>
-      <input type="text" name="city" class="form-control" id="inputCity" placeholder="São Paulo">
+      <input type="text" name="city" value="{{ users.city }}"class="form-control" id="inputCity">
     </div>
     <div class="form-group col-md-4">
       <label for="inputEstado">Estado</label>
-      <select id="inputEstado" name="state" class="form-control">
+      <select id="inputEstado" name="state" value="{{ users.state }}" class="form-control">
         <option selected>Escolher...</option>
         <option>AL</option>
         <option>AP</option>
@@ -56,11 +63,11 @@
     </div>
     <div class="form-group col-md-2">
       <label for="inputCEP">CEP</label>
-      <input type="text" name="cep" class="form-control" id="inputCEP" placeholder="071140723">
+      <input type="text" name="cep" value="{{ users.cep }}" class="form-control" id="inputCEP">
     </div>
     <div class="form-group col-md-2">
       <label for="inputCEP">Fone:</label>
-      <input type="text" name="phone" class="form-control" id="inputPhone" placeholder="1199003373">
+      <input type="text" name="phone" value="{{ users.phone }}" class="form-control" id="inputPhone">
     </div>
   </div>
   <div class="form-group">
