@@ -1,33 +1,34 @@
 const express = require('express');
 
 const router = express.Router();
-const User = require("../models/user");
-const Pet = require("../models/pet");
-const Hotel = require("../models/hotel");
-const Shop = require("../models/shop");
-const ensureAuthenticated = require("./authenticated");
+const User = require('../models/user');
+const Pet = require('../models/pet');
+const Hotel = require('../models/hotel');
+const Shop = require('../models/shop');
+const ensureAuthenticated = require('./authenticated');
 
 /* GET home page */
 router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-router.get('/auth/reset',(req, res, next) => {
+router.get('/auth/reset', (req, res, next) => {
   res.render('/auth/reset');
 });
 
 router.get('/home', ensureAuthenticated, (req, res, next) => {
   // const userInfo = req.user;
   console.log(req.user);
-  res.render("home");
+
   Shop.find()
-  .then(shops => {
-    Hotel.find()
-    .then(hotels => {
-    })
-    .catch((error) => {
+    .then((shops) => {
+      Hotel.find()
+        .then((hotels) => {
+          res.render('home', { shops, hotels });
+        })
+        .catch((error) => {
+        });
     });
-  });
 });
 
 router.get('/services', ensureAuthenticated, (req, res, next) => {
@@ -52,15 +53,15 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  console.log("teste do req session", req.session.passport.user);
-  console.log("teste do req user", req.user._id);
+  console.log('teste do req session', req.session.passport.user);
+  console.log('teste do req user', req.user._id);
   User.findOne({ _id: req.session.passport.user })
-  .then((user) => {
-    res.render('forms/user', {user});
-  })
-  .catch((error) => {
-    console.log(error);
-  })
+    .then((user) => {
+      res.render('forms/user', { user });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
@@ -102,13 +103,19 @@ router.post('/pet', ensureAuthenticated, (req, res, next) => {
     });
 });
 
+// Shop Details GET
+router.get('/shop/:id', ensureAuthenticated, (req, res, next) => {
+
+});
+
+
 // Hotel form GET and POST
 router.get('/hotel', ensureAuthenticated, (req, res, next) => {
   res.render('forms/hotel');
 });
 
 router.post('/hotel', ensureAuthenticated, (req, res, next) => {
-  const { name, CNPJ, address:streetAddress, address:city, address:state, address:cep } = req.body;
+  const { name, CNPJ, address: streetAddress, address: city, address: state, address: cep } = req.body;
   console.log(req.body);
   const newHotel = new Hotel({ name, CNPJ, address: streetAddress, address: city, address: state, address: cep });
   newHotel.save()
@@ -121,4 +128,3 @@ router.post('/hotel', ensureAuthenticated, (req, res, next) => {
 });
 
 module.exports = router;
-

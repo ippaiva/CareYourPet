@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const session = require('express-session');
 const ensureAuthenticated = require('./authenticated');
+
 const router = express.Router();
 
 // Bcrypt to encrypt pass
@@ -18,7 +19,7 @@ router.get('/signup', (req, res, next) => {
 
 // Signup process
 router.post('/signup', (req, res, next) => {
-  const { username, email, password} = req.body;
+  const { username, email, password } = req.body;
   if (email === '' || password === '') {
     res.render('auth/signup');
     return;
@@ -31,25 +32,28 @@ router.post('/signup', (req, res, next) => {
   //     return;
   //   }
   // }
+  let salt;
+  let hashPass;
+  if (password === true) {
+    salt = bcrypt.genSaltSync(bcryptSalt);
+    hashPass = bcrypt.hashSync(password, salt);
+  }
 
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
+  const newUser = new User({
+    username,
+    email,
+    password: hashPass
+  });
+  console.log(newUser);
 
-    const newUser = new User({
-      username,
-      email,
-      password: hashPass
-    });
-    console.log(newUser);
-
-    newUser.save()
+  newUser.save()
     .then((user) => {
       req.session.user = user;
-      res.redirect("/user");
-      })
-    .catch(err => {
+      res.redirect('/user');
+    })
+    .catch((err) => {
       console.log(err);
-      res.render("auth/signup", { message: "Something went wrong" });
+      res.render('auth/signup', { message: 'Something went wrong' });
     });
 });
 
@@ -58,9 +62,9 @@ router.get('/login', (req, res, next) => {
   res.render('auth/login');
 });
 
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/home",
-  failureRedirect: "/auth/login",
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/home',
+  failureRedirect: '/auth/login',
   passReqToCallback: true
 }));
 
@@ -76,8 +80,8 @@ router.get('/logout', ensureAuthenticated, (req, res, next) => {
       next(err);
       return;
     }
-  req.logout();
-  res.redirect('/');
+    req.logout();
+    res.redirect('/');
   });
 });
 
@@ -96,7 +100,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/',
-    successRedirect: '/home'
+    successRedirect: '/user'
   })
 );
 
@@ -105,8 +109,6 @@ router.get(
 
 // app.get('/auth/facebook/callback',
 //   passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
-
-// TWITTER AUTH
 
 
 module.exports = router;
