@@ -10,7 +10,7 @@ const shopSchema = new Schema({
   state: String,
   cep: Number,
   streetAddress: String,
-  name: { service: String, enum: ['banho', 'tosa', 'veterinário', 'outros'] },
+  services: { type: [String], enum: ['banho', 'tosa', 'veterinário', 'outros'] },
   cost: Number,
   phone: Number,
   email: String

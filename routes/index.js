@@ -46,14 +46,45 @@ router.get('/profile', ensureAuthenticated, (req, res, next) => {
   })
 });
 
-router.get('/shop', ensureAuthenticated, (req, res, next) => {
-  res.render('forms/shop');
+// router.get('/shop', ensureAuthenticated, (req, res, next) => {
+//   User.findOne({ _id: req.session.passport.user })
+//   .then((user) => {
+//     console.log(user);
+//     res.render('forms/shop', {hotel, shop});
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   })
+// });
+
+// Shop Details GET
+router.get('/details/:id', ensureAuthenticated, (req, res, next) => {
+  console.log("esse é o conteudo do shop req.parms", req.params.id);
+  Shop.findOne({ _id: req.params.id })
+  .then((shop) => {
+    console.log("esse é shop do get details", shop.services);
+    res.render('details', { shop });
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
+// // Hotel Details GET
+// router.get('/details/:id', ensureAuthenticated, (req, res, next) => {
+//   console.log("esse é o conteudo do hotel req.parms", req.params.id);
+//   Hotel.findOne({ _id: req.params.id })
+//   .then((hotel) => {
+//     console.log("esse é hotel do get details", hotel);
+//     res.render('details', { hotel });
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   })
+// });
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  console.log('teste do req user', req.user.id);
   User.findOne({ _id: req.user.id })
     .then((user) => {
       res.render('forms/user', { user });
@@ -75,16 +106,17 @@ router.post('/user', ensureAuthenticated, (req, res, next) => {
     });
 });
 
-router.get('/pets', ensureAuthenticated, (req, res, next) => {
-  User.findOne({ _id: req.session.passport.user })
-  .then((user) => {
-    console.log("isso são os pets", user.pet);
-    res.render('pets', {user} );
-  })
-  .catch((error) => {
-    console.log(error);
-  })
-});
+// router.get('/pets', ensureAuthenticated, (req, res, next) => {
+//   console.log("isso são os dados de user em pets", req.name)
+//   User.findOne({ _id: req.user.id })
+//   .then((user) => {
+//     console.log("isso são os pets depois do findOne", user.name );
+//     res.render('pets', {user} );
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   })
+// });
 
 // Pet form GET and POST
 router.get('/pet', ensureAuthenticated, (req, res, next) => {
@@ -115,10 +147,7 @@ router.post('/pet', ensureAuthenticated, (req, res, next) => {
   });
 });
 
-// Shop Details GET
-router.get('/shop/:id', ensureAuthenticated, (req, res, next) => {
 
-});
 
 
 // Hotel form GET and POST
