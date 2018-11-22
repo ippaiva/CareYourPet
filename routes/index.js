@@ -18,7 +18,7 @@ router.get('/auth/reset', (req, res, next) => {
 
 router.get('/home', ensureAuthenticated, (req, res, next) => {
   // const userInfo = req.user;
-  console.log(req.user);
+  console.log("OLOOOKO", req.user);
 
   Shop.find()
     .then((shops) => {
@@ -36,7 +36,14 @@ router.get('/services', ensureAuthenticated, (req, res, next) => {
 });
 
 router.get('/profile', ensureAuthenticated, (req, res, next) => {
-  res.render('profile');
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    console.log(user);
+    res.render('profile', {user});
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 router.get('/shop', ensureAuthenticated, (req, res, next) => {
@@ -46,9 +53,8 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  console.log('teste do req session', req.session.passport.user);
-  console.log('teste do req user', req.user._id);
-  User.findOne({ _id: req.session.passport.user })
+  console.log('teste do req user', req.user.id);
+  User.findOne({ _id: req.user.id })
     .then((user) => {
       res.render('forms/user', { user });
     })
@@ -58,38 +64,55 @@ router.get('/user', ensureAuthenticated, (req, res, next) => {
 });
 
 router.post('/user', ensureAuthenticated, (req, res, next) => {
-  console.log('**************', req.body);
   const { CPF, name, lastName, streetAddress, city, state, cep, phone } = req.body;
 
-  // const newUser = new User({ CPF, name, lastName, adress: streetAddress, address:city, address:state, address:cep, phone });
   User.findByIdAndUpdate({ _id: req.session.passport.user }, { CPF, name, lastName, streetAddress, city, state, cep, phone })
-
-  // newUser.save()
     .then(() => {
-      // console.log(User);
       res.redirect('/home');
     })
     .catch((error) => {
       console.log(error);
     });
+});
+
+router.get('/pets', ensureAuthenticated, (req, res, next) => {
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    console.log("isso são os pets", user.pet);
+    res.render('pets', {user} );
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 // Pet form GET and POST
 router.get('/pet', ensureAuthenticated, (req, res, next) => {
-  res.render('forms/pet', { user: req.user.id });
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    res.render('forms/pet', {user});
+  })
+  .catch((error) => {
+    console.log(error);
+  })
 });
 
 router.post('/pet', ensureAuthenticated, (req, res, next) => {
   const { name, type, race, size, age, genero, cor } = req.body;
-  console.log(req.body);
-  const newPet = new Pet({ name, type, race, size, age, genero, cor });
+  console.log("esse é o req body", req.body);
+  const newPet = new Pet( { owner: req.session.passport.user, name, type, race, size, age, genero, cor });
+
   newPet.save()
     .then(() => {
-      res.redirect('/home');
-    })
+      console.log("esse é o newPet", newPet);
+      User.findByIdAndUpdate({ _id: req.session.passport.user }, { $push: {pet: [newPet._id]} })
+      .then(() => {
+        res.redirect('/home');
+      })
     .catch((error) => {
       console.log(error);
     });
+  });
 });
 
 // Shop Details GET

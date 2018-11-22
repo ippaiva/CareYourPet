@@ -6,16 +6,12 @@ const shopSchema = new Schema({
   name: String,
   CNPJ: Number,
   location: { type: { type: String }, coordinates: [Number] },
-  address: {
-    city: String,
-    state: String,
-    cep: Number,
-    streetAddress: String
-  },
-  service: [{
-    name: { type: String, enum: ['banho', 'tosa', 'veterinário', 'outros'] },
-    cost: Number
-  }],
+  city: String,
+  state: String,
+  cep: Number,
+  streetAddress: String,
+  name: { service: String, enum: ['banho', 'tosa', 'veterinário', 'outros'] },
+  cost: Number,
   phone: Number,
   email: String
 });

@@ -109,7 +109,6 @@ passport.use(
 // ));
 
 // Passport local strategy
-
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
