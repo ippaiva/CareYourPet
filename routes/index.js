@@ -18,7 +18,7 @@ router.get('/auth/reset', (req, res, next) => {
 
 router.get('/home', ensureAuthenticated, (req, res, next) => {
   // const userInfo = req.user;
-  console.log(req.user);
+  console.log("OLOOOKO", req.user);
 
   Shop.find()
     .then((shops) => {
@@ -53,9 +53,8 @@ router.get('/shop', ensureAuthenticated, (req, res, next) => {
 
 // User form GET and POST
 router.get('/user', ensureAuthenticated, (req, res, next) => {
-  console.log('teste do req session', req.session.passport.user);
-  console.log('teste do req user', req.user._id);
-  User.findOne({ _id: req.session.passport.user })
+  console.log('teste do req user', req.user.id);
+  User.findOne({ _id: req.user.id })
     .then((user) => {
       res.render('forms/user', { user });
     })
@@ -76,6 +75,17 @@ router.post('/user', ensureAuthenticated, (req, res, next) => {
     });
 });
 
+router.get('/pets', ensureAuthenticated, (req, res, next) => {
+  User.findOne({ _id: req.session.passport.user })
+  .then((user) => {
+    console.log("isso são os pets", user.pet);
+    res.render('pets', {user} );
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+});
+
 // Pet form GET and POST
 router.get('/pet', ensureAuthenticated, (req, res, next) => {
   User.findOne({ _id: req.session.passport.user })
@@ -94,13 +104,15 @@ router.post('/pet', ensureAuthenticated, (req, res, next) => {
 
   newPet.save()
     .then(() => {
-      User.findByIdAndUpdate({ _id: req.session.passport.user }, { pet: [newPet._id] })
+      console.log("esse é o newPet", newPet);
+      User.findByIdAndUpdate({ _id: req.session.passport.user }, { $push: {pet: [newPet._id]} })
       .then(() => {
         res.redirect('/home');
       })
     .catch((error) => {
       console.log(error);
     });
+  });
 });
 
 // Shop Details GET

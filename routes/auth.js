@@ -34,7 +34,7 @@ router.post('/signup', (req, res, next) => {
   // }
   let salt;
   let hashPass;
-  if (password === true) {
+  if (password !== '') {
     salt = bcrypt.genSaltSync(bcryptSalt);
     hashPass = bcrypt.hashSync(password, salt);
   }
@@ -44,12 +44,13 @@ router.post('/signup', (req, res, next) => {
     email,
     password: hashPass
   });
-  console.log(newUser);
 
   newUser.save()
     .then((user) => {
-      req.session.user = user;
-      res.redirect('/user');
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return res.redirect('/user');
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -70,19 +71,12 @@ router.post('/login', passport.authenticate('local', {
 
 // LOGOUT process
 router.get('/logout', ensureAuthenticated, (req, res, next) => {
-  if (!req.session.currentUser) {
+  if (!req.user) {
     res.redirect('/');
     return;
   }
-
-  req.session.destroy((err) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    req.logout();
-    res.redirect('/');
-  });
+  req.logout();
+  res.redirect('/');
 });
 
 // GOOGLE AUTH

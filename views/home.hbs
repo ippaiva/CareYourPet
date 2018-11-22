@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Home</a>
+  <a class="navbar-brand" href="/auth/logout">Logout</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
     aria-expanded="false" aria-label="Alterna navegação">
     <span class="navbar-toggler-icon"></span>
@@ -11,7 +12,7 @@
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
       <a class="dropdown-item" href="/user">User</a>
-      <a class="dropdown-item" href="/pet">Pet</a>
+      <a class="dropdown-item" href="/pets">Pet</a>
     </div>
 </nav>
 <br>
@@ -37,13 +38,13 @@
   <h1>Establishments</h1>
   {{#each shops}}
   <ul><li>
-  <a href="/details">{{this.name}}</a>
+  <a href="/details/{{this.id}}">{{this.name}}</a>
   </li></ul>
   {{/each}}
   
   {{#each hotels}}
   <ul><li>
-  <a href="/details">{{this.name}}</a>
+  <a href="/details/{{this.id}}">{{this.name}}</a>
   </li></ul>
   {{/each}}
 

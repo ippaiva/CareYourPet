@@ -10,7 +10,8 @@ const petSchema = new Schema({
   size: ['toy', 'pequeno', 'médio', 'grande', 'gigante'],
   age: Number,
   genero: ['Macho', 'Femea'],
-  cor: String
+  cor: String,
+  photo: String,
 });
 
 petSchema.set('timestamps', true);
