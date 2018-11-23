@@ -27,7 +27,7 @@ a {
     font-size:15px;
     transition: 0.2s ease;
   }
-  input[type="submit"] {
+  button[type="submit"] {
     margin-bottom:28px;
     width:120px;
     height:32px;
@@ -41,7 +41,7 @@ a {
     transition:0.25s ease;
     cursor:pointer;
   }
-  input[type="submit"]:hover,input[type="submit"]:focus {
+  button[type="submit"]:hover,button[type="submit"]:focus {
     background:#ff5722;
     transition: 0.2s ease;
   }
@@ -176,4 +176,12 @@ h1 {
   color:#fff;
   text-align:center;
   text-shadow:0 2px 4px rgba( 0,0,0,0.6);
+}
+#logout{
+  float: rigth;
+  justify-content:flex-end;
+}
+
+#home{
+  background-image: '../images/pets-photo-1249208.jpeg'
 }

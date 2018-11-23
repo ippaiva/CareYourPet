@@ -24,7 +24,7 @@ a {
     font-weight: 400;
     font-size: 15px;
     transition: 0.2s ease; }
-  .signup-login input[type="submit"] {
+  .signup-login button[type="submit"] {
     margin-bottom: 28px;
     width: 120px;
     height: 32px;
@@ -37,7 +37,7 @@ a {
     text-transform: uppercase;
     transition: 0.25s ease;
     cursor: pointer; }
-  .signup-login input[type="submit"]:hover, .signup-login input[type="submit"]:focus {
+  .signup-login button[type="submit"]:hover, .signup-login button[type="submit"]:focus {
     background: #ff5722;
     transition: 0.2s ease; }
 
@@ -162,5 +162,12 @@ h1 {
   color: #fff;
   text-align: center;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); }
+
+#logout {
+  float: rigth;
+  justify-content: flex-end; }
+
+#home {
+  background-image: '../images/pets-photo-1249208.jpeg'; }
 
 /*# sourceMappingURL=style.css.map */

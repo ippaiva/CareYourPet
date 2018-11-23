@@ -60,7 +60,7 @@ const hotels = [{
   name: 'Banho e Tosa Black White Pet',
   email: 'tosa@banho.com',
   password: 'tosa1',
-  location: { type:'R. Santa Izabel, 253 - Vila Augusta, Guarulhos - SP, 07023-022', coordinates: [-23.462525, -46.517178] },
+  location: { type: 'R. Santa Izabel, 253 - Vila Augusta, Guarulhos - SP, 07023-022', coordinates: [-23.462525, -46.517178] },
   phone: 1148037000
 }];
 

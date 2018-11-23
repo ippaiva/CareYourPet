@@ -34,7 +34,8 @@ router.post('/signup', (req, res, next) => {
   // }
   let salt;
   let hashPass;
-  if (password !== '') {
+  console.log(password);
+  if (password !== undefined) {
     salt = bcrypt.genSaltSync(bcryptSalt);
     hashPass = bcrypt.hashSync(password, salt);
   }
@@ -47,7 +48,7 @@ router.post('/signup', (req, res, next) => {
 
   newUser.save()
     .then((user) => {
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) { return next(err); }
         return res.redirect('/user');
       });
@@ -94,7 +95,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/',
-    successRedirect: '/user'
+    successRedirect: '/home'
   })
 );
 
