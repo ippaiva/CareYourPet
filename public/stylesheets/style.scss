@@ -182,6 +182,49 @@ h1 {
   justify-content:flex-end;
 }
 
-#home{
-  background-image: '../images/pets-photo-1249208.jpeg'
+body {
+  background-image: url(../images/pets-photo-1249208.jpeg);
+}
+
+h3 {
+  color: white;
+  font-weight: bolder;
+}
+
+.h3-initial-page {
+  color: white;
+  font-weight: bolder;
+}
+
+.establishments-home {
+  color: white;
+  font-weight: bold;
+}
+
+#user-form {
+  color: white;
+  font-weight: bold;
+}
+
+#pet-form {
+  color: white;
+  font-weight: bold;
+}
+
+.details-style {
+  color: white;
+  font-weight: bold;
+}
+
+.details-sizing {
+  margin: 20px;
+}
+
+.initial-page {
+  display: block;
+  box-sizing: border-box;
+  margin: auto;
+  padding: 15px;
+  max-width: 420px;
+  width: 100%;
 }
