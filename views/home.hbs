@@ -36,18 +36,20 @@
     </div>
   </div> --}}
 
-  <h1>Establishments</h1>
-  {{#each shops}}
-  <ul><li>
-  <a href="/details/{{this.id}}">{{this.name}}</a>
-  </li></ul>
-  {{/each}}
-  
-  {{#each hotels}}
-  <ul><li>
-  <a href="/details/{{this.id}}">{{this.name}}</a>
-  </li></ul>
-  {{/each}}
+  <h1 class="establishments-home">Establishments</h1>
+  <div class="list-group">
+    {{#each shops}}
+    {{!-- <ul><li> --}}
+    <a class="list-group-item list-group-item-action" href="/details/{{this.id}}">{{this.name}}</a>
+    {{!-- </li></ul> --}}
+    {{/each}}
+    
+    {{#each hotels}}
+    {{!-- <ul><li> --}}
+    <a class="list-group-item list-group-item-action" href="/details/{{this.id}}">{{this.name}}</a>
+    {{!-- </li></ul> --}}
+    {{/each}}
+  </div>
 </div>
 </section>
 

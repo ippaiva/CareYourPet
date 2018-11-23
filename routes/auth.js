@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const session = require('express-session');
 const ensureAuthenticated = require('./authenticated');
-
 const router = express.Router();
 
 // Bcrypt to encrypt pass
