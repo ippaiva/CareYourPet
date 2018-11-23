@@ -46,8 +46,4 @@ function startMap() {
   }
 }
 
-const directionsService = new google.maps.DirectionsService;
-const directionsDisplay = new google.maps.DirectionsRenderer;
-
-
 startMap();

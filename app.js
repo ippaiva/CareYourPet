@@ -9,29 +9,35 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 const passport = require('passport');
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session); 
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
 const flash = require('connect-flash');
+
 const app = express();
 const bcrypt = require('bcrypt');
 const User = require('./models/user.js');
 
 mongoose
-  .connect('mongodb://localhost/careyourpet', { useNewUrlParser: true })
+  .connect(
+    'mongodb://localhost/careyourpet',
+    { useNewUrlParser: true }
+  )
   .then((x) => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
+    console.log(
+      `Connected to Mongo! Database name: "${x.connections[0].name}"`
+    );
   })
   .catch((err) => {
     console.error('Error connecting to mongo', err);
   });
 
-
 const app_name = require('./package.json').name;
-const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
-
+const debug = require('debug')(
+  `${app_name}:${path.basename(__filename).split('.')[0]}`
+);
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -40,11 +46,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
-app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  sourceMap: true
-}));
+app.use(
+  require('node-sass-middleware')({
+    src: path.join(__dirname, 'public'),
+    dest: path.join(__dirname, 'public'),
+    sourceMap: true
+  })
+);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -55,60 +63,18 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Care Your Pet';
 
 // Call session
-app.use(session({
-  secret: "basic-auth-secret",
-  cookie: { maxAge: 6000000 },
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60 // 1 day
+app.use(
+  session({
+    secret: 'basic-auth-secret',
+    cookie: { maxAge: 6000000 },
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 24 * 60 * 60 // 1 day
+    })
   })
-}));
-
-// Passport GOOGLE
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID:
-        '207886205081-09rdttg7cppmsat3t2a9qb4h4qs40abh.apps.googleusercontent.com',
-      clientSecret: 'LIynABNI-MbwhPe9ivp0grGk',
-      callbackURL: '/auth/google/callback'
-    },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ googleID: profile.id }, (err, user) => {
-        if (err) {
-          return done(err);
-        }
-        if (user) {
-          return done(null, user);
-        }
-
-        const newUser = new User({
-          googleID: profile.id
-        });
-
-        newUser.save().then((user) => {
-          done(null, newUser);
-        });
-      });
-    }
-  )
 );
 
-// Passport Facebook
-// passport.use(new FacebookStrategy({
-//   clientID: FACEBOOK_APP_ID,
-//   clientSecret: FACEBOOK_APP_SECRET,
-//   callbackURL: "http://www.example.com/auth/facebook/callback"
-// },
-// function(accessToken, refreshToken, profile, done) {
-//   User.findOrCreate(..., function(err, user) {
-//     if (err) { return done(err); }
-//     done(null, user);
-//   });
-// }
-// ));
-
-// Passport local strategy
+// Passport GOOGLE
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
@@ -120,19 +86,34 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-passport.use(new LocalStrategy((username, password, next) => {
-  User.findOne({ email: username }, (err, user) => {
+
+// Google social login
+passport.use(new GoogleStrategy({
+  clientID: process.env.clientID,
+  client_secret: process.env.clientSECRET,
+  callbackURL: '/auth/google/callback',
+  passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
+  User.findOne({ googleID: profile.id }, function (err, user) {
     if (err) {
-      return next(err);
+      console.log(req.user, req.profile);
+      return done(err);
     }
     if (!user) {
-      return next(null, false, { message: "Incorrect username" });
+      console.log(req.user);
+      newUser = new User({
+        name: profile.displayName,
+        googleID: profile.id
+      });
+      newUser.save(function (err) {
+        req.session.currentUser = user;
+        if (err) console.log(err);
+        return done(err, user);
+      });
+    } else {
+      req.session.currentUser = user;
+      return done(err, user);
     }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
-    }
-
-    return next(null, user);
   });
 }));
 
@@ -141,9 +122,10 @@ app.use(passport.session());
 
 // app.use('/', authRoutes);
 const index = require('./routes/index');
+
 app.use('/', index);
 const auth = require('./routes/auth');
-app.use('/auth', auth);
 
+app.use('/auth', auth);
 
 module.exports = app;
