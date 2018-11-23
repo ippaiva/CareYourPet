@@ -34,26 +34,26 @@ router.get('/services', ensureAuthenticated, (req, res, next) => {
 
 router.get('/profile', ensureAuthenticated, (req, res, next) => {
   User.findOne({ _id: req.session.passport.user })
-  .then((user) => {
-    console.log(user);
-    res.render('profile', {user});
-  })
-  .catch((error) => {
-    console.log(error);
-  })
+    .then((user) => {
+      console.log(user);
+      res.render('profile', { user });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 // Shop Details GET
 router.get('/details/:id', ensureAuthenticated, (req, res, next) => {
-  console.log("esse é o conteudo do shop req.parms", req.params.id);
+  console.log('esse é o conteudo do shop req.parms', req.params.id);
   Shop.findOne({ _id: req.params.id })
-  .then((shop) => {
-    console.log("esse é shop do get details", shop.services);
-    res.render('details', { shop });
-  })
-  .catch((error) => {
-    console.log(error);
-  })
+    .then((shop) => {
+      console.log('esse é shop do get details', shop.services);
+      res.render('details', { shop });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 // // Hotel Details GET
@@ -95,34 +95,34 @@ router.post('/user', ensureAuthenticated, (req, res, next) => {
 // Pet form GET and POST
 router.get('/pet', ensureAuthenticated, (req, res, next) => {
   User.findOne({ _id: req.session.passport.user })
-  .then((user) => {
-    Pet.findOne({ _id: req.user.pet[0] })
-      .then((pet) => {
-        console.log("isso é o resultado de req user pet", pet);
-        res.render('forms/pet', {user, pet});
-      })
-  })
-  .catch((error) => {
-    console.log(error);
-  })
+    .then((user) => {
+      Pet.findOne({ _id: req.user.pet[0] })
+        .then((pet) => {
+          console.log('isso é o resultado de req user pet', pet);
+          res.render('forms/pet', { user, pet });
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 router.post('/pet', ensureAuthenticated, (req, res, next) => {
   const { name, type, race, size, age, genero, cor } = req.body;
-  console.log("esse é o req body", req.body);
-  const newPet = new Pet( { owner: req.session.passport.user, name, type, race, size, age, genero, cor });
+  console.log('esse é o req body', req.body);
+  const newPet = new Pet({ owner: req.session.passport.user, name, type, race, size, age, genero, cor });
 
   newPet.save()
     .then(() => {
-      console.log("esse é o newPet", newPet);
-      User.findByIdAndUpdate({ _id: req.session.passport.user }, { $push: {pet: [newPet._id]} })
-      .then(() => {
-        res.redirect('/home');
-      })
-    .catch((error) => {
-      console.log(error);
+      console.log('esse é o newPet', newPet);
+      User.findByIdAndUpdate({ _id: req.session.passport.user }, { $push: { pet: [newPet._id] } })
+        .then(() => {
+          res.redirect('/home');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
-  });
 });
 
 // Hotel form GET and POST
