@@ -22,7 +22,7 @@ const User = require('./models/user.js');
 
 mongoose
   .connect(
-    'mongodb://localhost/careyourpet',
+    'mongodb://heroku_chptsqm5:28c7p1m9jjl063hufuebain162@ds233218.mlab.com:33218/heroku_chptsqm5',
     { useNewUrlParser: true }
   )
   .then((x) => {
