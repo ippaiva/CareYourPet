@@ -74,7 +74,7 @@ app.use(
   })
 );
 
-// Passport GOOGLE
+// Passport local strategy
 passport.serializeUser((user, cb) => {
   cb(null, user._id);
 });
@@ -86,36 +86,50 @@ passport.deserializeUser((id, cb) => {
   });
 });
 
-
-// Google social login
-passport.use(new GoogleStrategy({
-  clientID: process.env.clientID,
-  client_secret: process.env.clientSECRET,
-  callbackURL: '/auth/google/callback',
-  passReqToCallback: true
-}, function (req, accessToken, refreshToken, profile, done) {
-  User.findOne({ googleID: profile.id }, function (err, user) {
+passport.use(new LocalStrategy((username, password, next) => {
+  User.findOne({ email: username }, (err, user) => {
     if (err) {
-      console.log(req.user, req.profile);
-      return done(err);
+      return next(err);
     }
     if (!user) {
-      console.log(req.user);
-      newUser = new User({
-        name: profile.displayName,
-        googleID: profile.id
-      });
-      newUser.save(function (err) {
-        req.session.currentUser = user;
-        if (err) console.log(err);
-        return done(err, user);
-      });
-    } else {
-      req.session.currentUser = user;
-      return done(err, user);
+      return next(null, false, { message: "Incorrect username" });
     }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return next(null, false, { message: "Incorrect password" });
+    }
+
+    return next(null, user);
   });
 }));
+
+
+// Google social login
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID:
+//       callbackURL: '/auth/google/callback'
+//     },
+//     (accessToken, refreshToken, profile, done) => {
+//       User.findOne({ googleID: profile.id }, (err, user) => {
+//         if (err) {
+//           return done(err);
+//         }
+//         if (user) {
+//           return done(null, user);
+//         }
+
+//         const newUser = new User({
+//           googleID: profile.id
+//         });
+
+//         newUser.save().then((user) => {
+//           done(null, newUser);
+//         });
+//       });
+//     }
+//   )
+// );
 
 app.use(passport.initialize());
 app.use(passport.session());
