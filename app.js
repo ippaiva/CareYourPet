@@ -22,7 +22,7 @@ const User = require('./models/user.js');
 
 mongoose
   .connect(
-    'mongodb://localhost/careyourpet',
+    'mongodb://heroku_chptsqm5:28c7p1m9jjl063hufuebain162@ds233218.mlab.com:33218/heroku_chptsqm5',
     { useNewUrlParser: true }
   )
   .then((x) => {
@@ -92,10 +92,10 @@ passport.use(new LocalStrategy((username, password, next) => {
       return next(err);
     }
     if (!user) {
-      return next(null, false, { message: "Incorrect username" });
+      return next(null, false, { message: 'Incorrect username' });
     }
     if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
+      return next(null, false, { message: 'Incorrect password' });
     }
 
     return next(null, user);
