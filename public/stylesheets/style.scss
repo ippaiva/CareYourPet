@@ -191,6 +191,11 @@ h3 {
   font-weight: bolder;
 }
 
+.h3-initial-page {
+  color: white;
+  font-weight: bolder;
+}
+
 .establishments-home {
   color: white;
   font-weight: bold;
@@ -213,4 +218,13 @@ h3 {
 
 .details-sizing {
   margin: 20px;
+}
+
+.initial-page {
+  display: block;
+  box-sizing: border-box;
+  margin: auto;
+  padding: 15px;
+  max-width: 420px;
+  width: 100%;
 }
